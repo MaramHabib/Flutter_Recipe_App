@@ -38,6 +38,7 @@ dependencies:
   carousel_slider: ^4.2.1
   dots_indicator: ^3.0.0
   shared_preferences: ^2.2.2
+  get_it: ^7.6.6
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +66,9 @@ flutter:
   assets:
      - assets/images/background.jpg
      - assets/images/base_header.png
+     - assets/data/
+     - assets/images/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

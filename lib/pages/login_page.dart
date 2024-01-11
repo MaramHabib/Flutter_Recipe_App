@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import '../utils/images.dart';
 import '../utils/colors.dart';
 import '../widgets/scrollable.dart';
 import 'home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,8 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController passwordController;
   late GlobalKey<FormState> formkey;
   bool obsecureText = true;
-
-  get prefs => null;
   @override
   void initState() {
     super.initState();
@@ -126,9 +126,9 @@ class _LoginPageState extends State<LoginPage> {
                         backgroundColor: Color(ColorsConst.mainColor)),
                     onPressed: () {
                       if (!(formkey.currentState?.validate() ?? false)) {
-                        //GetIt.I
-                           // get<SharedPreferences>()
-                            prefs.setBool('isLogin', true);
+                        GetIt.I
+                            .get<SharedPreferences>()
+                            .setBool('isLogin', true);
 
                         Navigator.pushReplacement(
                             context,

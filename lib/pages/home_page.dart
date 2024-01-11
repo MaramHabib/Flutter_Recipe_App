@@ -22,11 +22,21 @@ class _HomePageState extends State<HomePage> {
   CarouselController carouselControllerEx = CarouselController();
 
   List adsList=[];
-  void getAds() async{
+  Future<void> getAds() async{
     var adsData=await rootBundle.loadString('assets/data/sample.json');
+   // final data = await json.decode(adsData);
     var dataDecoded=List<Map<String,dynamic>>.from(jsonDecode(adsData)['ads']);
     adsList = dataDecoded.map((e) => Ad.fromJson(e)).toList();
+    print("*********************   $adsList   *******************");
+    // final String response = await rootBundle.loadString('assets/sample.json');
+    // final data = await json.decode(response);
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    getAds();
+    super.initState();
   }
 
   @override

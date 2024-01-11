@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/preferences.services.dart';
 import '../utils/images.dart';
+import 'home_page.dart';
+import 'login_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -10,6 +15,37 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+
+  @override
+  void initState() {
+    initSplash();
+    super.initState();
+  }
+
+  void initSplash() async {
+    await Future.delayed(const Duration(seconds: 3));
+
+//********************  Using Shared Preferences ****************
+//     if (PreferencesService.checkUser()){
+//       Navigator.pushReplacement(
+//           context,
+//           MaterialPageRoute(builder: (_) => HomePage()));
+//     }else{
+//       Navigator.pushReplacement(context,
+//       MaterialPageRoute(builder: (_) => LoginPage()));
+//     }
+//********************  Using GetIt  ****************
+    if (GetIt.I.get<SharedPreferences>().getBool('isLogin') ?? false) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => HomePage()));
+      // go to home page
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => LoginPage()));
+      // go to login page
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

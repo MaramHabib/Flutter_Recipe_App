@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:recipe_app/pages/home_page.dart';
 import 'package:recipe_app/pages/splash_screen.dart';
+import 'package:recipe_app/services/preferences.services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    //PreferencesService.prefs = await SharedPreferences.getInstance();
+    var preferences = await SharedPreferences.getInstance();
+    GetIt.I.registerSingleton<SharedPreferences>(preferences);
+
+    // if(PreferencesService.prefs != null){
+    //   print("********** Preferences Intialized Successfully *******")
+    // }
+  }catch(e){
+    print("***********Error in shared pref ${e} **************");
+  }
+
   runApp(const MyApp());
 }
 
