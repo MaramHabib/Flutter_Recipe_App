@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flut_grouped_buttons/flut_grouped_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recipe_app/pages/pageviewer.dart';
 
 import '../models/ads.models.dart';
+import '../services/meal.service.dart';
 import '../utils/colors.dart';
+import '../utils/navigation.utils.dart';
 import '../utils/numbers.dart';
 import '../widgets/section_header.dart';
 
@@ -260,6 +264,26 @@ class _HomePageState extends State<HomePage> {
                         )),
                   ),
                   const SectionHeader(sectionName: 'New Ingredients'),
+
+                  // Day Nine Code
+
+                  SectionHeader(sectionName: 'New Ingredients'),
+                  FlutGroupedButtons<String>(
+                    isRadio: true,
+                    selectedList: ["launch"],
+                    data: MealTypes.values.map((e) => e.name).toList(),
+                    onChanged: (name) {
+                      print(name);
+                    },
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        NavigationUtils.push(
+                            context: context, page: PageViewPage());
+                      },
+                      child: Text('open'))
+
+
                 ],
               ),
           ),
