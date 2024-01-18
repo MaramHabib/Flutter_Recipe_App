@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/counter_cubit.dart';
 import '../utils/colors.dart';
 
 class PageViewPage extends StatefulWidget {
@@ -82,25 +84,27 @@ class _PageViewPageState extends State<PageViewPage> {
                 // physics: const NeverScrollableScrollPhysics(),
                 controller: pageController,
                 children: [
-                  // BlocConsumer<CounterCubit, CounterState>(
-                  //     builder: (context, state) {
-                  //       return Column(
-                  //         children: [
-                  //           Text(state.counterValue.toString()),
-                  //           ElevatedButton(
-                  //               onPressed: () =>
-                  //                   BlocProvider.of<CounterCubit>(context)
-                  //                       .increment(),
-                  //               child: Text('+')),
-                  //           ElevatedButton(
-                  //               onPressed: () =>
-                  //                   BlocProvider.of<CounterCubit>(context)
-                  //                       .decrement(),
-                  //               child: Text('-'))
-                  //         ],
-                  //       );
-                  //     },
-                  //     listener: (_, __) {}),
+                  // ***********************  Adding Bloc Consumer ********************
+                  BlocConsumer<CounterCubit, CounterState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            Text(state.counterValue.toString()),
+                            ElevatedButton(
+                                onPressed: () =>
+                                    BlocProvider.of<CounterCubit>(context)
+                                        .increment(),
+                                child: Text('+')),
+                            ElevatedButton(
+                                onPressed: () =>
+                                    BlocProvider.of<CounterCubit>(context)
+                                        .decrement(),
+                                child: Text('-'))
+                          ],
+                        );
+                      },
+                      listener: (_, __) {}),
+                  // ***********************  End Bloc Consumer *******************
                   Container(
                     color: Colors.green,
                   ),
