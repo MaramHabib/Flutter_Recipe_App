@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_app/cubit/counter_cubit.dart';
 import 'package:recipe_app/pages/home_page.dart';
 import 'package:recipe_app/pages/splash_screen.dart';
+import 'package:recipe_app/provider/app_auth.provider.dart';
 import 'package:recipe_app/services/preferences.services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+
 
 
 void main() async {
@@ -16,6 +22,10 @@ void main() async {
     //PreferencesService.prefs = await SharedPreferences.getInstance();
     var preference = await SharedPreferences.getInstance();
     GetIt.I.registerSingleton<SharedPreferences>(preference);
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     // await Firebase.initializeApp(
     //   options: DefaultFirebaseOptions.currentPlatform,
@@ -28,14 +38,23 @@ void main() async {
   } catch (e) {
     print(
         '=========================Error In init Prefrences ${e}========================');
+
+
+
   }
   // runApp(MultiProvider(
   //     providers: [ChangeNotifierProvider(create: (_) => AppAuthProvider())],
   //     child: const MyApp()));
 
-  runApp(BlocProvider<CounterCubit>(
-      create:  (context) => CounterCubit(),
-      child: const MyApp()));
+  //****************  Using BlocProvider ********************
+  // runApp(BlocProvider<CounterCubit>(
+  //     create:  (context) => CounterCubit(),
+  //     child: const MyApp()));
+  //****************  Using MultiProvider ********************
+  runApp(                                                     MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => AppAuthProvider()),
+    //ChangeNotifierProvider(create: (_) => AdsProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

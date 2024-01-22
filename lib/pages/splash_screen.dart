@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +44,19 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => LoginPage()));
       // go to login page
+
+//******************  Firebase Provider *****************************8
+
+      await Future.delayed(const Duration(seconds: 1));
+      FirebaseAuth.instance.authStateChanges().listen((user) {
+        if (user == null) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => LoginPage()));
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => HomePage()));
+        }
+      });
     }
   }
 
