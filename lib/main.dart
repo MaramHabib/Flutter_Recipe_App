@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:overlay_kit/overlay_kit.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -62,23 +63,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'Hellix',
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.grey.shade200,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+    return OverlayKit(
+      child:MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          fontFamily: 'Hellix',
+          inputDecorationTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: Colors.grey.shade200,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+          ),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Color(0xfff45b00),
+            primary: Color(0xfff45b00),
+            secondary: Color(0xfff45b00),
+          ),
+          useMaterial3: true,
         ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xfff45b00),
-          primary: Color(0xfff45b00),
-          secondary: Color(0xfff45b00),
-        ),
-        useMaterial3: true,
-      ),
-      home: SplashPage(),
+        home: SplashPage(),
+      )
     );
   }
 }

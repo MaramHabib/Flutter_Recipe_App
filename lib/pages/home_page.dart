@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flut_grouped_buttons/flut_grouped_buttons.dart';
@@ -9,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_app/cubit/ads_cubit.dart';
 import 'package:recipe_app/pages/pageviewer.dart';
 
-import '../models/ads.models.dart';
+//import '../models/ads.models.dart';
 import '../services/meal.service.dart';
 import '../utils/colors.dart';
 import '../utils/navigation.utils.dart';
@@ -117,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             );
+
                           }).toList(),
                         ),
                           DotsIndicator(

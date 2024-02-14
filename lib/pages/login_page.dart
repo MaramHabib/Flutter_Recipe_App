@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:recipe_app/pages/register_page.dart';
 import '../utils/images.dart';
 import '../utils/colors.dart';
 import '../widgets/scrollable.dart';
@@ -124,7 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                     style: ElevatedButton.styleFrom(
                         fixedSize: Size(400, 50),
                         backgroundColor: Color(ColorsConst.mainColor)),
-                    onPressed: () {
+                    onPressed:
+                        () {
                       if (!(formkey.currentState?.validate() ?? false)) {
                         GetIt.I
                             .get<SharedPreferences>()
@@ -145,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           if (MediaQuery.of(context).viewInsets.bottom == 0)
-            const Positioned.fill(
+             Positioned.fill(
               bottom: 10,
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -154,10 +156,18 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Not Have Account , Register Now ?',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      InkWell(
+                        onTap: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (_) => const RegisterPage()));
+                        },
+                        child:Text(
+                          'Not Have Account , Register Now ?',
+                          style: TextStyle(color: Colors.white),
+                          ),
+                      )
                     ],
                   ),
                 ),

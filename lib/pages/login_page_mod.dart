@@ -1,19 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/pages/login_page_mod.dart';
-
+import 'package:recipe_app/pages/register_page.dart';
 import '../provider/app_auth.provider.dart';
-import '../utils/colors.dart';
 import '../utils/images.dart';
+import '../utils/colors.dart';
+import '../widgets/scrollable.dart';
+import 'home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+// This is Login Page Modified with Auth Provider
+
+class LoginPageMod extends StatefulWidget {
+  const LoginPageMod({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPageMod> createState() => _LoginPageModState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginPageModState extends State<LoginPageMod> {
+
   @override
   void initState() {
     Provider.of<AppAuthProvider>(context, listen: false).providerInit();
@@ -35,30 +42,27 @@ class _RegisterPageState extends State<RegisterPage> {
             decoration: const BoxDecoration(color: Colors.black38),
           ),
           Consumer<AppAuthProvider>(
-            builder: (context, authProvider, _) => Form(
+              builder: (context, authProvider, _) =>Form(
               key: authProvider.formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Spacer(
-                    flex: 1,
-                  ),
+              child: WidgetScrollable(
+                isColumn: true,
+                columnMainAxisAlignment: MainAxisAlignment.center,
+                widgets: [
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 50, right: 50, top: 50, bottom: 25),
                     child: Image.asset(ImagesPath.baseHeader),
                   ),
                   Text(
-                    'Register',
+                    'Login',
                     style: TextStyle(color: Colors.white),
                   ),
                   const SizedBox(
                     height: 15,
                   ),
                   TextFormField(
-                    controller: authProvider.emailController,
                     style: TextStyle(color: Colors.white),
+                    controller: authProvider.emailController,
                     decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white)),
@@ -74,6 +78,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           Icons.person,
                           color: Colors.white,
                         )),
+                    validator: (value) {
+                      if (value == null || (value?.isEmpty ?? false)) {
+                        return 'Email Is Required';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 15,
@@ -82,6 +92,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: authProvider.passwordController,
                     obscureText: authProvider.obsecureText,
                     decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white)),
                         border: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white)),
                         fillColor: Colors.transparent,
@@ -91,36 +105,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(
                           Icons.password,
                           color: Colors.white,
-                        ),
-                        suffixIcon: InkWell(
-                          onTap: () => authProvider.toggleObsecure(),
-                          child: authProvider.obsecureText
-                              ? Icon(
-                            Icons.visibility_off,
-                            color: Colors.white,
-                          )
-                              : Icon(
-                            Icons.visibility,
-                            color: Colors.white,
-                          ),
                         )),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  TextFormField(
-                    controller: authProvider.nameController,
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white)),
-                        fillColor: Colors.transparent,
-                        filled: true,
-                        hintStyle: TextStyle(color: Colors.white),
-                        hintText: 'name',
-                        prefixIcon: Icon(
-                          Icons.document_scanner,
-                          color: Colors.white,
-                        )),
+                    validator: (value) {
+                      if (value == null || (value?.isEmpty ?? false)) {
+                        return 'Password Is Required';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(
                     height: 15,
@@ -129,38 +120,43 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: ElevatedButton.styleFrom(
                           fixedSize: Size(400, 50),
                           backgroundColor: Color(ColorsConst.mainColor)),
-                      onPressed: () {
-                        authProvider.signUp(context);
-                      },
-                      child: Text('register',
-                          style: TextStyle(color: Colors.white))),
-                  Spacer(
-                    flex: 2,
+                      onPressed: () => authProvider.logIn(context),
+                      child:
+                      Text('Login', style: TextStyle(color: Colors.white))),
+                  const SizedBox(
+                    height: 15,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-
-                    // child: Text(
-                    //   'Login',
-                    //   style: TextStyle(color: Colors.white),
-                    // ),
-                    child:InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const LoginPageMod()));
-                      },
-                      child:Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
           ),
+          if (MediaQuery.of(context).viewInsets.bottom == 0)
+            Positioned.fill(
+              bottom: 10,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const RegisterPage()));
+                        },
+                        child:Text(
+                          'Not Have Account , Register Now ?',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            )
         ],
       ),
     );
