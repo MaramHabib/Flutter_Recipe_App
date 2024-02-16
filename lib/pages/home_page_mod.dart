@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flut_grouped_buttons/flut_grouped_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/cubit/ads_cubit.dart';
 import 'package:recipe_app/pages/pageviewer.dart';
@@ -15,6 +17,7 @@ import '../services/meal.service.dart';
 import '../utils/colors.dart';
 import '../utils/navigation.utils.dart';
 import '../utils/numbers.dart';
+import '../widgets/ads_widget.dart';
 import '../widgets/section_header.dart';
 
 
@@ -55,7 +58,7 @@ class _HomePageModState extends State<HomePageMod> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              //AdsWidget(),
+              AdsWidget(),
               SectionHeader(sectionName: 'Today\'s Fresh Recipes'),
               Card(
                 elevation: 2,
@@ -207,23 +210,24 @@ class _HomePageModState extends State<HomePageMod> {
                 },
               ),
               ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async{
 
-                    Provider.of<AppAuthProvider>(context,listen: false).signOut(context);
-                    //OverlayLoadingProgress.start();
+                    //Provider.of<AppAuthProvider>(context,listen: false).signOut(context);
+                    // Read Data from cloud firestore
+                    OverlayLoadingProgress.start();
 
-                    // await FirebaseFirestore.instance
-                    //     .collection('ads')
-                    //     .doc("custiom id")
-                    //     .set({
-                    //   "title": "Less Carbs Meals",
-                    //   "image":
-                    //   "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.wallpaperflare.com%2Fstatic%2F778%2F966%2F360%2Fgreek-cooking-recipe-lettuce-wallpaper.jpg&f=1&nofb=1&ipt=d368b40582b66339031ebdc23aaaad0d225155af57a897834200c15d0bccd2d0&ipo=images"
-                    // });
+                    await FirebaseFirestore.instance
+                        .collection('ads')
+                        //.doc("custiom id")
+                        .add({
+                      "title": "Less Carbs Meals",
+                      "image":
+                      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.wallpaperflare.com%2Fstatic%2F778%2F966%2F360%2Fgreek-cooking-recipe-lettuce-wallpaper.jpg&f=1&nofb=1&ipt=d368b40582b66339031ebdc23aaaad0d225155af57a897834200c15d0bccd2d0&ipo=images"
+                    });
 
-                   // OverlayLoadingProgress.stop();
+                   OverlayLoadingProgress.stop();
                   },
-                  child: Text('signout')),
+                  child: Text('add')),
               Text(FirebaseAuth.instance.currentUser?.displayName ?? 'No Name')
             ],
           ),

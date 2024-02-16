@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:overlay_kit/overlay_kit.dart';
+import 'package:recipe_app/provider/ads.provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -54,7 +55,7 @@ void main() async {
   //****************  Using MultiProvider ********************
   runApp(                                                     MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppAuthProvider()),
-    //ChangeNotifierProvider(create: (_) => AdsProvider()),
+    ChangeNotifierProvider(create: (_) => AdsProvider()),
   ], child: const MyApp()));
 }
 
