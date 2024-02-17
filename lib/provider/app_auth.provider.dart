@@ -108,7 +108,7 @@ class AppAuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> signUp(BuildContext context) async {
+  Future<void> signUp(BuildContext context) async  {
     try {
       if (formKey?.currentState?.validate() ?? false) {
         OverlayLoadingProgress.start();

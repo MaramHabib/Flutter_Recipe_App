@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:recipe_app/provider/ads.provider.dart';
+import 'package:recipe_app/provider/ingredient.provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -56,6 +57,7 @@ void main() async {
   runApp(                                                     MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppAuthProvider()),
     ChangeNotifierProvider(create: (_) => AdsProvider()),
+    ChangeNotifierProvider(create: (_) => IngredientsProvider()),
   ], child: const MyApp()));
 }
 
